@@ -28,6 +28,14 @@ const fetchAllTransactions = async (supabase: any, userId: string): Promise<Tran
   return data as Transaction[];
 };
 
+// Currency formatter for INR
+const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+  }).format(amount);
+};
+
 const Dashboard = () => {
   const { session, supabase } = useSession();
   const navigate = useNavigate();

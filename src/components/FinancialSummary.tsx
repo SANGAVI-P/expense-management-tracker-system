@@ -7,7 +7,7 @@ import { useSession } from "@/contexts/SessionContext";
 import { Transaction, TRANSACTION_TYPES } from "@/lib/constants";
 import { showError } from "@/utils/toast";
 import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils"; // <-- Added import
+import { cn } from "@/lib/utils";
 
 interface FinancialSummaryProps {
   transactions: Transaction[] | undefined;
@@ -15,9 +15,9 @@ interface FinancialSummaryProps {
 }
 
 const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('en-IN', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'INR',
   }).format(amount);
 };
 

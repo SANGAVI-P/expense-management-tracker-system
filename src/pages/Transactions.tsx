@@ -229,9 +229,9 @@ const TransactionsPage = () => {
                     "text-right font-semibold",
                     transaction.type === TRANSACTION_TYPES.EXPENSE ? "text-destructive" : "text-green-600"
                   )}>
-                    {new Intl.NumberFormat('en-US', {
+                    {new Intl.NumberFormat('en-IN', {
                       style: 'currency',
-                      currency: 'USD',
+                      currency: 'INR',
                     }).format(Math.abs(transaction.amount))}
                   </TableCell>
                   <TableCell className="text-center">
