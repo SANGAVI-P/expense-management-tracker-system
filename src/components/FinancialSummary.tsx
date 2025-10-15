@@ -7,6 +7,7 @@ import { useSession } from "@/contexts/SessionContext";
 import { Transaction, TRANSACTION_TYPES } from "@/lib/constants";
 import { showError } from "@/utils/toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils"; // <-- Added import
 
 interface FinancialSummaryProps {
   transactions: Transaction[] | undefined;
