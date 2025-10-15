@@ -9,7 +9,6 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import { SessionContextProvider } from "./contexts/SessionContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import BudgetPlanner from "./pages/BudgetPlanner";
 
 const queryClient = new QueryClient();
 
@@ -26,7 +25,6 @@ const App = () => (
             
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/budget-planner" element={<BudgetPlanner />} />
             </Route>
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
