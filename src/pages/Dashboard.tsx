@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { LogOut, PlusCircle, List, BarChart3, Calendar } from "lucide-react";
-import { format } from "date-fns";
+import { LogOut, PlusCircle, List, BarChart3, Calendar, Wallet } from "lucide-react";
+import { format, startOfMonth } from "date-fns";
 
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/contexts/SessionContext";
@@ -18,8 +18,9 @@ import { getMonthRange, getRecentMonths } from "@/lib/date-utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MonthlyBudgetTracker } from "@/components/MonthlyBudgetTracker";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { BudgetManager } from "@/components/BudgetManager";
+import { BudgetStatus, Budget } from "@/components/BudgetStatus";
 
-// Utility function to fetch all transactions for the summary and reports
 const fetchAllTransactions = async (supabase: any, userId: string, startDate: string, endDate: string): Promise<Transaction[]> => {
   const { data, error } = await supabase
     .from("transactions")
@@ -29,13 +30,20 @@ const fetchAllTransactions = async (supabase: any, userId: string, startDate: st
     .lte("transaction_date", endDate)
     .order("transaction_date", { ascending: false });
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
   return data as Transaction[];
 };
 
-// Currency formatter for INR
+const fetchBudgets = async (supabase: any, userId: string, month: string): Promise<Budget[]> => {
+  const { data, error } = await supabase
+    .from("budgets")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("month", month);
+  if (error) throw error;
+  return data;
+};
+
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
@@ -48,7 +56,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("summary");
   
-  // State for monthly tracking
   const recentMonths = useMemo(() => getRecentMonths(12), []);
   const [selectedMonthValue, setSelectedMonthValue] = useState(recentMonths[0].value);
   
@@ -70,19 +77,30 @@ const Dashboard = () => {
     },
   });
 
+  const { data: budgets, isLoading: isLoadingBudgets } = useQuery<Budget[]>({
+    queryKey: ["budgets", userId, format(startOfMonth(selectedMonth), "yyyy-MM-dd")],
+    queryFn: () => {
+      if (!userId) return Promise.resolve([]);
+      return fetchBudgets(supabase, userId, format(startOfMonth(selectedMonth), "yyyy-MM-dd"));
+    },
+    enabled: !!userId,
+    onError: (error) => {
+      console.error("Error fetching budgets:", error);
+      showError("Failed to load budget data.");
+    },
+  });
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/login");
   };
 
   const handleTransactionAdded = () => {
-    // If a transaction is added, we should refetch and ensure we are viewing the current month
     setSelectedMonthValue(recentMonths[0].value);
     refetch();
     setActiveTab("summary");
   };
 
-  // --- Reporting Logic ---
   const expenseData = transactions
     ? transactions
         .filter(t => t.type === TRANSACTION_TYPES.EXPENSE)
@@ -97,10 +115,9 @@ const Dashboard = () => {
   const pieChartData = Object.entries(expenseData).map(([name, value]) => ({
     name,
     value,
-  })).sort((a, b) => b.value - a.value); // Sort by value descending
+  })).sort((a, b) => b.value - a.value);
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF1953', '#19FFD1', '#FFD119'];
-  // -----------------------
 
   return (
     <div className="container mx-auto p-4">
@@ -138,7 +155,7 @@ const Dashboard = () => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4 md:w-fit">
+        <TabsList className="grid w-full grid-cols-5 md:w-fit">
           <TabsTrigger value="summary" className="group transition-transform duration-200 ease-in-out hover:scale-105">
             <BarChart3 className="h-4 w-4 mr-2 hidden sm:inline text-blue-500 transition-all duration-200 group-data-[state=active]:text-blue-600 group-data-[state=active]:scale-110" /> Summary
           </TabsTrigger>
@@ -151,11 +168,15 @@ const Dashboard = () => {
           <TabsTrigger value="transactions" className="group transition-transform duration-200 ease-in-out hover:scale-105">
             <List className="h-4 w-4 mr-2 hidden sm:inline text-purple-500 transition-all duration-200 group-data-[state=active]:text-purple-600 group-data-[state=active]:scale-110" /> Transactions
           </TabsTrigger>
+          <TabsTrigger value="budgets" className="group transition-transform duration-200 ease-in-out hover:scale-105">
+            <Wallet className="h-4 w-4 mr-2 hidden sm:inline text-orange-500 transition-all duration-200 group-data-[state=active]:text-orange-600 group-data-[state=active]:scale-110" /> Budgets
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="summary" className="mt-6 space-y-6">
           <MonthlyBudgetTracker transactions={transactions} isLoading={isLoading} />
           <FinancialSummary transactions={transactions} isLoading={isLoading} />
+          <BudgetStatus transactions={transactions} budgets={budgets} isLoading={isLoading || isLoadingBudgets} />
           
           <Card>
             <CardHeader>
@@ -215,8 +236,11 @@ const Dashboard = () => {
         </TabsContent>
 
         <TabsContent value="transactions" className="mt-6">
-          {/* Note: TransactionsPage handles its own filtering, but we keep it here for navigation */}
           <TransactionsPage />
+        </TabsContent>
+
+        <TabsContent value="budgets" className="mt-6">
+          <BudgetManager />
         </TabsContent>
       </Tabs>
     </div>
