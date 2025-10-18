@@ -27,3 +27,6 @@ export interface Transaction {
   transaction_date: string; // ISO date string
   created_at: string;
 }
+
+// Default budget for demonstration (in INR)
+export const DEFAULT_MONTHLY_BUDGET = 50000;

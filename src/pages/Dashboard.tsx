@@ -16,6 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { getMonthRange, getRecentMonths } from "@/lib/date-utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { MonthlyBudgetTracker } from "@/components/MonthlyBudgetTracker";
 
 // Utility function to fetch all transactions for the summary and reports
 const fetchAllTransactions = async (supabase: any, userId: string, startDate: string, endDate: string): Promise<Transaction[]> => {
@@ -149,6 +150,7 @@ const Dashboard = () => {
         </TabsList>
 
         <TabsContent value="summary" className="mt-6 space-y-6">
+          <MonthlyBudgetTracker transactions={transactions} isLoading={isLoading} />
           <FinancialSummary transactions={transactions} isLoading={isLoading} />
           
           <Card>
