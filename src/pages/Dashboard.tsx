@@ -17,6 +17,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recha
 import { getMonthRange, getRecentMonths } from "@/lib/date-utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MonthlyBudgetTracker } from "@/components/MonthlyBudgetTracker";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 // Utility function to fetch all transactions for the summary and reports
 const fetchAllTransactions = async (supabase: any, userId: string, startDate: string, endDate: string): Promise<Transaction[]> => {
@@ -107,9 +108,12 @@ const Dashboard = () => {
         <h1 className="text-3xl font-extrabold tracking-tight">
           Welcome, {session?.user?.email?.split('@')[0] || "User"}!
         </h1>
-        <Button onClick={handleLogout} variant="outline">
-          <LogOut className="mr-2 h-4 w-4" /> Logout
-        </Button>
+        <div className="flex space-x-2">
+          <ThemeToggle />
+          <Button onClick={handleLogout} variant="outline">
+            <LogOut className="mr-2 h-4 w-4" /> Logout
+          </Button>
+        </div>
       </div>
 
       <div className="flex justify-between items-center mb-6">
