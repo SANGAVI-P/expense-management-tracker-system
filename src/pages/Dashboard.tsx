@@ -139,17 +139,17 @@ const Dashboard = () => {
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-4 md:w-fit">
-          <TabsTrigger value="summary">
-            <BarChart3 className="h-4 w-4 mr-2 hidden sm:inline" /> Summary
+          <TabsTrigger value="summary" className="group transition-transform duration-200 ease-in-out hover:scale-105">
+            <BarChart3 className="h-4 w-4 mr-2 hidden sm:inline text-blue-500 transition-all duration-200 group-data-[state=active]:text-blue-600 group-data-[state=active]:scale-110" /> Summary
           </TabsTrigger>
-          <TabsTrigger value="add-expense">
-            <PlusCircle className="h-4 w-4 mr-2 hidden sm:inline" /> Add Expense
+          <TabsTrigger value="add-expense" className="group transition-transform duration-200 ease-in-out hover:scale-105">
+            <PlusCircle className="h-4 w-4 mr-2 hidden sm:inline text-red-500 transition-all duration-200 group-data-[state=active]:text-red-600 group-data-[state=active]:scale-110" /> Add Expense
           </TabsTrigger>
-          <TabsTrigger value="add-income">
-            <PlusCircle className="h-4 w-4 mr-2 hidden sm:inline" /> Add Income
+          <TabsTrigger value="add-income" className="group transition-transform duration-200 ease-in-out hover:scale-105">
+            <PlusCircle className="h-4 w-4 mr-2 hidden sm:inline text-green-500 transition-all duration-200 group-data-[state=active]:text-green-600 group-data-[state=active]:scale-110" /> Add Income
           </TabsTrigger>
-          <TabsTrigger value="transactions">
-            <List className="h-4 w-4 mr-2 hidden sm:inline" /> Transactions
+          <TabsTrigger value="transactions" className="group transition-transform duration-200 ease-in-out hover:scale-105">
+            <List className="h-4 w-4 mr-2 hidden sm:inline text-purple-500 transition-all duration-200 group-data-[state=active]:text-purple-600 group-data-[state=active]:scale-110" /> Transactions
           </TabsTrigger>
         </TabsList>
 
