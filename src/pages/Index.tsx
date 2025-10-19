@@ -70,7 +70,10 @@ const Index = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {features.map((feature) => (
-                <Card key={feature.title} className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <Card
+                  key={feature.title}
+                  className="text-center shadow-lg hover:shadow-xl transition-shadow border border-purple-200/50 dark:border-purple-800/30 bg-gradient-to-br from-purple-50 via-white to-white dark:from-purple-950/20 dark:via-card dark:to-card"
+                >
                   <CardHeader>
                     <div className="mx-auto bg-gray-100 dark:bg-gray-800 rounded-full p-4 w-fit mb-4">
                       {feature.icon}
