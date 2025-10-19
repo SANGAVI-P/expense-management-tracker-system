@@ -71,7 +71,7 @@ const Index = () => {
               {features.map((feature) => (
                 <Card
                   key={feature.title}
-                  className="text-center shadow-lg hover:shadow-xl transition-shadow border border-purple-200/50 dark:border-purple-800/30 bg-gradient-to-br from-purple-50 via-white to-white dark:from-purple-950/20 dark:via-card dark:to-card"
+                  className="text-center shadow-lg border border-purple-200/50 dark:border-purple-800/30 bg-gradient-to-br from-purple-50 via-white to-white dark:from-purple-950/20 dark:via-card dark:to-card transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-violet-400/30 dark:hover:shadow-violet-500/20 hover:-translate-y-1"
                 >
                   <CardHeader>
                     <div className="mx-auto bg-gray-100 dark:bg-gray-800 rounded-full p-4 w-fit mb-4">
