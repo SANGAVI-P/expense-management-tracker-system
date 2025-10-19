@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { ArrowUpDown, CalendarIcon, Search } from "lucide-react";
 
 import { useSession } from "@/contexts/SessionContext";
-import { Transaction, TRANSACTION_TYPES } from "@/lib/constants";
+import { Transaction, TRANSACTION_TYPES, getCategoryEmoji } from "@/lib/constants";
 import { showError } from "@/utils/toast";
 import {
   Table,
@@ -224,7 +224,9 @@ const TransactionsPage = () => {
                     {format(new Date(transaction.transaction_date), "MMM dd, yyyy")}
                   </TableCell>
                   <TableCell>{transaction.description || "N/A"}</TableCell>
-                  <TableCell>{transaction.category || "Uncategorized"}</TableCell>
+                  <TableCell>
+                    {getCategoryEmoji(transaction.category)} {transaction.category || "Uncategorized"}
+                  </TableCell>
                   <TableCell className={cn(
                     "text-right font-semibold",
                     transaction.type === TRANSACTION_TYPES.EXPENSE ? "text-destructive" : "text-green-600"

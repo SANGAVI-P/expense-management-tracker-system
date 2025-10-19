@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Transaction, TRANSACTION_TYPES } from "@/lib/constants";
+import { Transaction, TRANSACTION_TYPES, getCategoryEmoji } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { AlertTriangle, BadgeIndianRupee } from 'lucide-react';
 
@@ -88,7 +88,7 @@ export function BudgetStatus({ transactions, budgets, isLoading }: BudgetStatusP
         {budgetProgress.map(item => (
           <div key={item.id}>
             <div className="flex justify-between items-center mb-1">
-              <span className="font-medium">{item.category}</span>
+              <span className="font-medium">{getCategoryEmoji(item.category)} {item.category}</span>
               {item.warning && (
                 <span className={cn(
                   "text-xs font-semibold flex items-center",

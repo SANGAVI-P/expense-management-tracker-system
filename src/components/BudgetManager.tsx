@@ -99,7 +99,7 @@ export function BudgetManager() {
   };
 
   const availableCategories = DEFAULT_CATEGORIES.filter(
-    cat => !budgets?.some(b => b.category === cat)
+    cat => !budgets?.some(b => b.category === cat.value)
   );
 
   return (
@@ -124,8 +124,8 @@ export function BudgetManager() {
                       <SelectContent>
                         {availableCategories.length > 0 ? (
                           availableCategories.map((category) => (
-                            <SelectItem key={category} value={category}>
-                              {category}
+                            <SelectItem key={category.value} value={category.value}>
+                              {category.emoji} {category.value}
                             </SelectItem>
                           ))
                         ) : (

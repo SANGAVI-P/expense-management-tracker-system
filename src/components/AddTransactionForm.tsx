@@ -52,7 +52,7 @@ export function AddTransactionForm({ onTransactionAdded, defaultType }: AddTrans
       description: "",
       amount: 0,
       type: defaultType,
-      category: DEFAULT_CATEGORIES[0],
+      category: DEFAULT_CATEGORIES[0].value,
       transaction_date: new Date(),
     },
   });
@@ -83,7 +83,7 @@ export function AddTransactionForm({ onTransactionAdded, defaultType }: AddTrans
         description: "",
         amount: 0,
         type: defaultType,
-        category: DEFAULT_CATEGORIES[0],
+        category: DEFAULT_CATEGORIES[0].value,
         transaction_date: new Date(),
       });
       onTransactionAdded();
@@ -146,8 +146,8 @@ export function AddTransactionForm({ onTransactionAdded, defaultType }: AddTrans
                   </FormControl>
                   <SelectContent>
                     {DEFAULT_CATEGORIES.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
+                      <SelectItem key={category.value} value={category.value}>
+                        {category.emoji} {category.value}
                       </SelectItem>
                     ))}
                   </SelectContent>

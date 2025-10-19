@@ -9,7 +9,7 @@ import { useSession } from "@/contexts/SessionContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AddTransactionForm } from "@/components/AddTransactionForm";
 import { FinancialSummary } from "@/components/FinancialSummary";
-import { TRANSACTION_TYPES, Transaction } from "@/lib/constants";
+import { TRANSACTION_TYPES, Transaction, getCategoryEmoji } from "@/lib/constants";
 import { showError } from "@/utils/toast";
 import TransactionsPage from "./Transactions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -120,7 +120,7 @@ const Dashboard = () => {
     : {};
 
   const pieChartData = Object.entries(expenseData).map(([name, value]) => ({
-    name,
+    name: `${getCategoryEmoji(name)} ${name}`,
     value,
   })).sort((a, b) => b.value - a.value);
 
