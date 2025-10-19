@@ -123,7 +123,7 @@ const Dashboard = () => {
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6 border-b pb-4">
         <h1 className="text-3xl font-extrabold tracking-tight">
-          Welcome, {session?.user?.email?.split('@')[0] || "User"}!
+          Welcome!
         </h1>
         <div className="flex space-x-2">
           <ThemeToggle />
