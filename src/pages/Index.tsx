@@ -2,7 +2,6 @@ import { useSession } from "@/contexts/SessionContext";
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { MadeWithDyad } from "@/components/made-with-dyad";
 import { BarChart3, Goal, History, Wallet } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -89,11 +88,6 @@ const Index = () => {
           </div>
         </section>
       </main>
-
-      {/* Footer */}
-      <footer className="py-6">
-        <MadeWithDyad />
-      </footer>
     </div>
   );
 };
