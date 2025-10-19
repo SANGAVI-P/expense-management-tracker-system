@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { LogOut, PlusCircle, List, BarChart3, Calendar, Wallet } from "lucide-react";
 import { format, startOfMonth } from "date-fns";
@@ -54,6 +54,7 @@ const formatCurrency = (amount: number) => {
 const Dashboard = () => {
   const { session, supabase } = useSession();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("summary");
   
   const recentMonths = useMemo(() => getRecentMonths(12), []);
@@ -91,8 +92,14 @@ const Dashboard = () => {
   });
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate("/login");
+    const { error } = await supabase.auth.signOut();
+    queryClient.clear(); // Clear react-query cache
+    if (error) {
+      console.error("Error logging out:", error);
+      showError("Logout failed. Please try again.");
+    } else {
+      navigate("/login", { replace: true });
+    }
   };
 
   const handleTransactionAdded = () => {
